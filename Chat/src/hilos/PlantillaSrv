@@ -1,0 +1,64 @@
+package hilos;
+
+
+public class Servidor implements Runnable{
+
+	private int pausar = 1;
+	
+	public Servidor() {
+		
+
+	}
+	
+	
+	@Override
+	public void run() {
+		try {
+			while ((pausar==1) | (pausar== 2)){
+				if (pausar == 1){ 
+					
+					Thread.sleep(2000);
+				}
+				while(pausar==2) { 
+					
+				
+					wait(); 
+				}
+			}
+			
+		}catch (InterruptedException e) {
+		}
+	}
+		
+	public synchronized void resumirHilo(){
+		notify();
+	}
+
+	public void setPause(int pPause){
+
+		this.pausar = pPause;
+	}
+	
+	public synchronized void resume() {
+		setPause(1);
+		resumirHilo();
+//		System.out.println("El hilo " + this.getNombre() + " ha sido reanudado");
+
+	}
+	public synchronized void pause() {
+		setPause(2);
+		resumirHilo();
+//		System.out.println("El hilo " + this.getNombre() + " ha sido pausado");
+	}
+	
+	public synchronized void stop(){
+		setPause(3);
+		resumirHilo();
+//		System.out.println("El hilo " + this.getNombre() + " ha finalizado");
+	}
+	//GETTERS & SETTERS
+	
+
+
+}
+
